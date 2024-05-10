@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Unit {
+  id           String   @id @default(uuid())
+  name         String   @unique
+  tel          String
+  address      String
+  neighborhood String
+  city         String
+  state        String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  users_unit   User[]
+
+  @@map("units")
+}
+
+model User {
+  id            String        @id @default(uuid())
+  name          String
+  cpf           String        @unique
+  password      String
+  id_unit       String
+  unit          Unit          @relation(fields: [id_unit], references: [id], onDelete: Cascade)
+  office        String
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  type_user     TypeUsers     @default(DEFAULT)
+  evaluations   Evaluation[]
+  refresh_token RefreshToken?
+
+  @@map("users")
+}
+
+model RefreshToken {
+  id        String @id @default(uuid())
+  expiresIn Int
+  user      User   @relation(fields: [userId], references: [id])
+  userId    String @unique
+  @@map("refresh_token")
+}
+
+enum TypeUsers {
+  ADMIN
+  DEFAULT
+}
+
+enum TypeIndicators {
+  BOOL
+  NUMERIC
+}
+
+model Indicator {
+  id             String       @id @default(uuid())
+  description    String
+  objective      Int
+  dimension      String
+  type_Indicator TypeIndicators
+  sources        String
+  evaluations    Evaluation[]
+
+  @@map("indicators")
+}
+
+model Evaluation {
+  id              String    @id @default(uuid())
+  id_indicator    String
+  indicator       Indicator @relation(fields: [id_indicator], references: [id])
+  user_id         String
+  user            User      @relation(fields: [user_id], references: [id])
+  date_evaluation DateTime @default(now())
+  valueNum        Decimal? @db.Decimal(8, 2)
+  valueBol        Boolean?
+
+  @@map("evaluations")
+}
