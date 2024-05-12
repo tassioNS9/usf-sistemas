@@ -1,5 +1,5 @@
 <template>
-    <div class="p-8 text-cyan-700 font-extrabold">
+    <div class="bg-slate-300 rounded-3xl min-h-[600px] p-8 text-cyan-600">
         <section class=" dark:bg-gray-900">
             <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
                 <h2 class="mb-4 text-xl font-bold text-indigo-700 dark:text-white">Criar Novo Indicador</h2>
@@ -71,7 +71,7 @@
                     
                     <button type="submit"
                         class=" bg-indigo-700 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-indigo-800">
-                        Criar indicador
+                        Salvar
                     </button>
                 </form>
             </div>

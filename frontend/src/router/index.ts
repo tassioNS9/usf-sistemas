@@ -15,17 +15,17 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/app/dashboard",
     name: "Dashboard",
-    component: () => import("../views/Dashboard.vue"),
+    component: () => import("@/views/Dashboard.vue"),
   },
   {
     path: "/app/registro-usuario",
     name: "RegistroUsuario",
-    component: () => import("../views/adm/UserRegister.vue"),
+    component: () => import("@/views/adm/UserRegister.vue"),
   },
   {
     path: "/app/registro-unidade",
     name: "RegistroUnidade",
-    component: () => import("../views/adm/UnitRegister.vue"),
+    component: () => import("@/views/adm/UnitRegister.vue"),
   },
   // {
   //   path: "/app/home",
@@ -42,7 +42,7 @@ const routes: RouteRecordRaw[] = [
     path: "/app/avaliacoes",
     name: "Avaliacoes",
 
-    component: () => import("@/views/AvaliationRegister.vue"),
+    component: () => import("@/views/EvaluationRegister.vue"),
   },
   {
     path: "/app/indicadores",
@@ -70,7 +70,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/:pathMatch(.*)*',
-    component: () => import("../views/authentication/Error.vue")
+    component: () => import("@/views/authentication/Error.vue")
 },
 ]
 

@@ -1,84 +1,83 @@
 <template>
-    <form>
-        <div class="space-y-12">
-            <div class="border-b border-gray-900/10 pb-10">
-                <h2 class="text-base font-semibold leading-7 text-gray-900">Cadastro de nova Unidade</h2>
-
-
-                <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-9">
-                    <div class="sm:col-span-3">
-                        <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Nome
-                            Unidade</label>
-                        <div class="mt-2">
-                            <input type="text" name="first-name" id="first-name" autocomplete="given-name"
-                                v-model="data.name"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+    <section class="bg-slate-300  rounded-3xl  p-8 text-cyan-600">
+        <div class="max-w-3xl mx-auto px-4 py-8  lg:py-8">
+            <h2 class="mb-4 text-xl font-bold text-indigo-700 dark:text-white">Cadastrar nova unidade</h2>
+            <form action="post" @submit.prevent="createUnit">
+                <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
+                    <div class="sm:col-span-2">
+                        <label for="name"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">*Nome</label>
+                        <input type="text" v-model="data.name" name="name" id="name" autocomplete="given-name"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            >
                             <p class="px-2 mt-2 text-xs text-red-600 dark:text-red-400" v-if="v$.name.$error">
-                                {{ v$.name.$errors[0].$params.type === 'required' ? "Nome obrigatório!" : "Email inválido!"}}</p>
-                        </div>
+                                {{ v$.name.$errors[0].$params.type === 'required' ? "Campo obrigatório!" : "Nome inválido!"}}</p>
                     </div>
-
-                    <div class="sm:col-span-3">
-                        <label for="country" class="block text-sm font-medium leading-6 text-gray-900">Estado</label>
-                        <div class="mt-2">
+                    <div class="sm:col-span-2">
+                        <label for="cpf"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">*Endereco</label>
+                        <input type="text" name="cpf" id="cpf" v-model="data.address"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        >
+                        <p class="px-2 mt-2 text-xs text-red-600 dark:text-red-400" v-if="v$.address.$error">
+                                {{ v$.address.$errors[0].$params.type === 'required' ? "Campo obrigatório!" : "Nome inválido!"}}</p>
+                    </div>
+                    <div class="w-full">
+                        <label for="office"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">*Cidade</label>
+                        <input type="text" name="office" id="office" v-model="data.city"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                             >
+                             <p class="px-2 mt-2 text-xs text-red-600 dark:text-red-400" v-if="v$.city.$error">
+                                {{ v$.city.$errors[0].$params.type === 'required' ? "Campo obrigatório!" : "Nome inválido!"}}</p>
+                    
+                    </div>
+           
+                    <div class="w-full">
+                      
+                        <label for="unit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">*Estado
+                            </label>
                             <select id="state" name="state" autocomplete="state-name" v-model="data.state"
-                                class="block w-full rounded-md border-0 py-1.5 text-green-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:border-primary-500 sm:max-w-xs sm:text-sm sm:leading-6">
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                 <option>Selecione o estado</option>
                                 <option v-for="(state, index) in brazilStates" :value="state.name" :key="state.uf">
                                     {{ state.name }}</option>
                             </select>
                             <p class="px-2 mt-2 text-xs text-red-600 dark:text-red-400" v-if="v$.state.$error">
-                                {{"Estado obrigatório!"}}</p>
-                        </div>
+                                {{ v$.state.$errors[0].$params.type === 'required'  ? "Campo obrigatório!" : "Nome inválido!"}}</p>
                     </div>
 
-                    <div class="col-span-7">
-                        <label for="street-address"
-                            class="block text-sm font-medium leading-6 text-gray-900">Endereço</label>
-                        <div class="mt-2">
-                            <input type="text" name="street-address" id="street-address" autocomplete="street-address"
-                                v-model="data.address"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                                <p class="px-2 mt-2 text-xs text-red-600 dark:text-red-400" v-if="v$.address.$error">
-                                {{ v$.address.$errors[0].$params.type === 'required' ? "Nome obrigatório!" : "Email inválido!"}}</p>
-                            </div>
-                    </div>
-                    <div class="sm:col-span-2 sm:col-start-1">
-                        <label for="tel" class="block text-sm font-medium leading-6 text-gray-900">Telefone</label>
-                        <div class="mt-2">
-                            <input type="text" name="tel" id="tel" maxlength="11" autocomplete="address-level2" v-model="data.tel"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    <div class="w-full">
+                            <label for="neighborhood"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Bairro</label>
+                            <input type="text" name="neighborhood" id="neighborhood" v-model="data.neighborhood"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                >
+                            
                         </div>
-                    </div>
 
-                    <div class="sm:col-span-2 sm:col-start-1">
-                        <label for="city" class="block text-sm font-medium leading-6 text-gray-900">Cidade</label>
-                        <div class="mt-2">
-                            <input type="text" name="city" id="city" autocomplete="address-level2" v-model="data.city"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                                <p class="px-2 mt-2 text-xs text-red-600 dark:text-red-400" v-if="v$.city.$error">
-                                {{ v$.city.$errors[0].$params.type === 'required' ? "Campo obrigatório!" : "Email inválido!"}}</p>
-                            </div>
-                    </div>
-
-                    <div class="sm:col-span-2">
-                        <label for="neighnorhood" class="block text-sm font-medium leading-6 text-gray-900">Bairro</label>
-                        <div class="mt-2">
-                            <input type="text" name="neighnorhood" id="neighnorhood" autocomplete="address-level1"
-                                v-model="data.neighborhood"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        <div class="w-full">
+                            <label for="tel"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Telefone</label>
+                            <input type="text" name="tel" id="tel" v-model="data.tel"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                 >
                         </div>
-                    </div>
+
                 </div>
-            </div>
+                <div class="flex items-center space-x-4 mt-4">
+                    <button type="submit"
+                        class="text-white bg-indigo-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                        Atualizar
+                    </button>
 
+                </div>
+            </form>
         </div>
+    </section>
 
-        <div class="mt-2 flex items-center justify-start gap-x-6">
-            <button type="submit" @click="createUnit"
-                class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-800">Registrar</button>
-        </div>
-    </form>
+
+    
 </template>
 
 <script setup lang="ts">
@@ -127,7 +126,6 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, data)
 
 const createUnit = async (e: any) => {
-    e.preventDefault();
     const result = await v$.value.$validate()
     console.log(result)
 

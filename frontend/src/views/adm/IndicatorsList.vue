@@ -1,6 +1,6 @@
 <template>
-    <div class="container mx-auto mt-[80px]">
-        <h3 class="text-3xl font-medium text-gray-700">
+    <div class=" mt-3 mx-auto rounded-3xl  p-8">
+        <h3 class="mb-4 text-xl font-bold text-indigo-700 dark:text-white">
       Lista de Indicadores
     </h3>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -46,7 +46,7 @@
                             {{ indicator.sources }}
                         </td>
                         <td @click="openEditModal(indicator)" class="px-6 py-4 text-right">
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Editar</a>
                         </td>
                     </tr>
                 </tbody>
