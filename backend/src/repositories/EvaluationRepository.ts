@@ -1,20 +1,30 @@
 import {IEvaluation} from"../interfaces/IEvaluation"
 import { Evaluation } from "@prisma/client";
 import prisma from "../database";
-import { Decimal } from "@prisma/client/runtime/library";
 
 class EvaluationRepository implements IEvaluation {
   public async create(
-    id_indicator : string,
-    user_id : string,
+    id_indicator : number,
+    id_unit : number,
     date_evaluation : Date,
-    valueNum : Decimal, 
-    valueBol : boolean
+    evaluator : string,
+    valueNum : number | null,
+    valueBol : boolean | null
   
   ): Promise<Evaluation> {
     let evaluationExists = await prisma.evaluation.findFirst({
       where: {
-        date_evaluation,
+        AND:[
+          {
+            date_evaluation
+          },{
+            id_indicator
+          },
+          {
+            id_unit
+          }
+        ]
+   
       },
     });
     if (evaluationExists) {
@@ -24,7 +34,8 @@ class EvaluationRepository implements IEvaluation {
     const evaluation = await prisma.evaluation.create({
       data: {
         id_indicator,
-        user_id,
+        id_unit,
+        evaluator,
         date_evaluation,
         valueNum,
         valueBol

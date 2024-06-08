@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+
 import { IUserAuthenticate } from "../interfaces/IUserAuthenticate";
 import prisma from "../database";
 import { compare } from "bcrypt";
@@ -12,13 +12,13 @@ class AuthRepository implements IUserAuthenticate {
     });
 
     if (!userAlreadyExists) {
-      throw new Error("Error: usuário ou senha incorretos: cpf");
+      throw new Error("Error: cpf Inválido!");
     }
 
     const checkPassword = await compare(password, userAlreadyExists.password);
 
     if (!checkPassword) {
-      throw new Error("Error: usuário ou senha incorretos: Senha");
+      throw new Error("Error: Senha Incorreta!");
     }
 
     const generateTokenProvider = new GenerateTokenProvider();

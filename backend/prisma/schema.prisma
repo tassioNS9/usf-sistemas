@@ -11,48 +11,49 @@ datasource db {
 }
 
 model Unit {
-  id           String   @id @default(uuid())
-  name         String   @unique
+  id           Int          @id @default(autoincrement())
+  name         String       @unique
   tel          String
   address      String
   neighborhood String
   city         String
   state        String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
   users_unit   User[]
+  Evaluation   Evaluation[]
 
   @@map("units")
 }
 
 model User {
-  id            String        @id @default(uuid())
-  name          String
-  cpf           String        @unique
-  password      String
-  id_unit       String
-  unit          Unit          @relation(fields: [id_unit], references: [id], onDelete: Cascade)
-  office        String
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-  type_user     TypeUsers     @default(DEFAULT)
-  evaluations   Evaluation[]
-  refresh_token RefreshToken?
+  id              Int           @id @default(autoincrement())
+  name            String
+  cpf             String        @unique
+  password        String
+  id_unit         Int
+  unit            Unit          @relation(fields: [id_unit], references: [id], onDelete: Cascade)
+  office          String
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  role            Role          @default(USER)
+  refresh_token   RefreshToken?
 
   @@map("users")
 }
 
 model RefreshToken {
-  id        String @id @default(uuid())
+  id        Int  @id @default(autoincrement())
   expiresIn Int
-  user      User   @relation(fields: [userId], references: [id])
-  userId    String @unique
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int  @unique
+
   @@map("refresh_token")
 }
 
-enum TypeUsers {
+enum Role {
   ADMIN
-  DEFAULT
+  USER
 }
 
 enum TypeIndicators {
@@ -61,8 +62,8 @@ enum TypeIndicators {
 }
 
 model Indicator {
-  id             String       @id @default(uuid())
-  description    String
+  id             Int            @id @default(autoincrement())
+  description    String         @unique
   objective      Int
   dimension      String
   type_Indicator TypeIndicators
@@ -73,13 +74,14 @@ model Indicator {
 }
 
 model Evaluation {
-  id              String    @id @default(uuid())
-  id_indicator    String
-  indicator       Indicator @relation(fields: [id_indicator], references: [id])
-  user_id         String
-  user            User      @relation(fields: [user_id], references: [id])
-  date_evaluation DateTime @default(now())
-  valueNum        Decimal? @db.Decimal(8, 2)
+  id              Int       @id @default(autoincrement())
+  id_indicator    Int
+  indicator       Indicator @relation(fields: [id_indicator], references: [id], onDelete: Cascade)
+  id_unit         Int
+  unit            Unit      @relation(fields: [id_unit], references: [id], onDelete: Cascade)
+  evaluator       String
+  date_evaluation DateTime  @db.Date
+  valueNum        Int?
   valueBol        Boolean?
 
   @@map("evaluations")

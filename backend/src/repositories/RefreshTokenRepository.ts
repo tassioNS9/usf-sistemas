@@ -4,7 +4,7 @@ import { GenerateRefreshToken } from "../provider/GenerateRefreshToken"
 import dayjs from "dayjs"
 
 class RefreshTokenRepository {
-    async execute(refresh_token : string){
+    async execute(refresh_token : number){
         const refreshToken = await prisma.refreshToken.findFirst({
             where:{
                 id: refresh_token

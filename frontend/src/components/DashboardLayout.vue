@@ -17,7 +17,6 @@ import Header from './Header.vue'
           <slot />
         </div>
       </main>
-
       <Footer/>
     </div>
   </div>

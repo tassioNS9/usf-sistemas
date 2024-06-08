@@ -11,6 +11,9 @@ export default {
 
     const user = await authUser.auth(cpf, password);
 
+    const decoded = verify(user.token, process.env.SECRET);
+    console.log(decoded)
+
     return response.json({ user })
   },
 
@@ -25,13 +28,24 @@ export default {
     const [, token] = authToken.split(" ");
 
     try {
-      const decoded = verify(token, process.env.SECRET);
-      //console.log(authToken)
-      return response.status(200).json({ user: decoded });
+      const decoded = verify(token, process.env.SECRET) as any;
+      const user = await prisma.user.findUnique({
+        where:{
+          id: decoded.userId
+        },
+        include:{
+          unit:{
+            select:{
+              name:true
+            }
+          }
+        }
+      })
+      return response.status(200).json({  user });
 
     } catch (error) {
       //console.log(authToken)
-      return response.status(401).json({ erroor: "Token inválido!" })
+      return response.status(401).json({ error: "Token inválido!" })
     }
   },
 

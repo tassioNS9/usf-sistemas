@@ -1,5 +1,5 @@
 import { IUser } from "../interfaces/IUser";
-import { TypeUsers, User } from "@prisma/client";
+import { Role, User } from "@prisma/client";
 import prisma from "../database";
 import { hash } from "bcrypt";
 
@@ -8,9 +8,9 @@ class UserRepository implements IUser {
     name: string,
     cpf: string,
     password: string,
-    id_unit : string,
+    id_unit : number,
     office: string,
-    type_user: TypeUsers,
+    role: Role,
 ): Promise<User> {
     let userExists = await prisma.user.findFirst({
       where: {
@@ -29,7 +29,7 @@ class UserRepository implements IUser {
         cpf,
         id_unit,
         office,    
-        type_user,
+        role,
         password : HashPassword,
       },
     });

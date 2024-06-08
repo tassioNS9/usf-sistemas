@@ -1,12 +1,11 @@
-import { sign } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 
 class GenerateTokenProvider{
 
-    async execute(userId : string){
-        const token =  sign({}, process.env.SECRET, {
-          subject: userId,
-          expiresIn: "20s",
+    async execute(userId : number){
+        const token =  jwt.sign({userId}, process.env.SECRET, {
+          expiresIn: "1w",
         });
 
         return token;

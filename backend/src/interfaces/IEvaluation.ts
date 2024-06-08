@@ -1,7 +1,6 @@
 import {Evaluation} from "@prisma/client"
-import { Decimal } from "@prisma/client/runtime/library"
 
 
 export interface IEvaluation{
-    create(id_indicator : string, user_id:string, date_evaluation : Date, valueNum : Decimal, valueBol: boolean ):Promise<Evaluation>
+    create(id_indicator : number, id_unit: number, date_evaluation : Date, evaluator: string, valueNum : number | null, valueBol: boolean | null ):Promise<Evaluation>
 }

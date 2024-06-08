@@ -14,6 +14,9 @@ export default {
         "vtd-primary": colors.sky, // Light mode Datepicker color
         "vtd-secondary": colors.gray, // Dark mode Datepicker color
       },
+      backgroundImage:{
+        'background-main':"url('@/assets/background-main.jpg')",
+      }
     },
   },
   plugins: [require('flowbite/plugin')],

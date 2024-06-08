@@ -1,69 +1,85 @@
 <template>
-<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-  <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-    <img class="mx-auto h-10 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company">
-    <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-400">Faça Login em sua conta</h2>
-  </div>
 
-  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-    <form @submit.prevent = "login" class="space-y-6" action="#" method="POST">
-      <div>
-        <label for="cpf" class="block text-sm font-medium leading-6 text-gray-900">CPF</label>
-        <div class="mt-2">
-          <input id="cpf" v-model="user.cpf" name="cpf" type="text" autocomplete="cpf" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+  <section class="bg-[url('@/assets/background-main.jpg')] dark:bg-gray-900 ">
+    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 h-screen">
+      <div class="bg-indigo-700 w-full absolute top-0 h-10">
+        header
+      </div>
+      <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
+        <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo">
+        UFS SISTEMAS
+      </a>
+      <div
+        class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+        <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+          <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+            Faça login em sua conta
+          </h1>
+          <form class="space-y-4 md:space-y-6" action="post" @submit.prevent="login">
+            <div>
+              <label for="cpf" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">CPF</label>
+              <input type="text" name="cpf" id="cpf" v-model="user.cpf"
+                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="name@company.com" required="true">
+            </div>
+            <div>
+              <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Senha</label>
+              <input type="password" name="password" id="password" v-model="user.password" placeholder="••••••••"
+                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                required="true">
+              <p class="px-2 mt-2 text-xs text-red-600 dark:text-red-400" v-if="errorLogin">
+                {{ "CPF ou senha incorretos!" }}</p>
+            </div>
+            <div>
+              <button type="submit"
+                class="flex w-full justify-center rounded-md  bg-indigo-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Entrar</button>
+            </div>
+          </form>
         </div>
       </div>
-
-      <div>
-        <div class="flex items-center justify-between">
-          <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Senha</label>
-          <div class="text-sm">
-            <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Esqueceu a Senha?</a>
-          </div>
-        </div>
-        <div class="mt-2">
-          <input id="password" v-model="user.password" name="password" type="password" autocomplete="current-password" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-        </div>
-      </div>
-
-      <div>
-        <button type="submit" class="flex w-full justify-center rounded-md  bg-green-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Entrar</button>
-      </div>
-    </form>
-  </div>
-</div>
+    </div>
+  </section>
 </template>
 
 
 <script setup lang="ts">
 
 import api from '@/services/api';
-import {reactive} from 'vue';
-import {useAuth} from '@/stores/auth.js';
-import {useRouter} from "vue-router";
+import { reactive, ref } from 'vue';
+import { useAuth } from '@/stores/auth.js';
+import { useRouter } from "vue-router";
 const auth = useAuth();
 const router = useRouter()
 const user = reactive({
-  cpf:'07469410562',
-  password:'12345678'
+  cpf: '07469410562',
+  password: '1234567'
 })
+const errorLogin = ref(false)
 
-async function login(){
-  try {
-    const {data} = await api.post('/api/auth', user);
-    console.log('aqui')
-    console.log(data.user)
-    auth.setToken(data.user.token);
-    auth.setUser(data.user);
+async function login() {
+
+  await api.post('/api/auth', user, {
+    headers: { 'Content-Type': 'application/json' },
+  }).then(response => {
+    errorLogin.value = false
+    console.log(response)
+    auth.setToken(response.data.user.token);
+    auth.setUser(response.data.user);
     auth.setIsAuth(true);
-    router.push('/app/dashboard');
-  } catch (error) {
-    console.log(error);
-  }
+    router.push({ path: '/app/dashboard' });
+    window.location.href = '/app/dashboard'
+  }).catch(err => {
+    errorLogin.value = true
+
+  });
+
+
+
 }
+
+
 
 
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

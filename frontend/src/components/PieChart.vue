@@ -1,12 +1,10 @@
 <template>
 
     <div id="chart">
-        <apexchart type="pie" height="380" :options="dataPie.chartOptions" :series="dataPie.series">
+        <apexchart type="pie" width="280" height="180" :options="dataPie.chartOptions" :series="dataPie.series">
         </apexchart>
     </div>
-
-
-
+    
 </template>
 
 
@@ -14,19 +12,12 @@
 import { ref } from 'vue'
 import { useAuth } from "@/stores/auth";
 
-export default {
-    name: 'PieChart',
-    components:{
-        apexchart: VueApexCharts,
-    }
-}
 
 const dataPie = ref({
     series: [45, 55],
     chartOptions: {
         chart: {
-            width: 380,
-            height:380
+            width: 180,
             type: 'pie',
         },
         labels: ['Team A', 'Team B'],
@@ -34,7 +25,7 @@ const dataPie = ref({
             breakpoint: 480,
             options: {
                 chart: {
-                    width: 200
+                    width: 100
                 },
                 legend: {
                     position: 'bottom'

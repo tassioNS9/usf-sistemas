@@ -1,8 +1,8 @@
-import {TypeUsers, User , Evaluation} from "@prisma/client"
+import {Role, User , Evaluation} from "@prisma/client"
 
 
 export interface IUser{
-    create(name : string, cpf : string, password : string, id_unit: string, office: string, type_user:TypeUsers ):Promise<User>
+    create(name : string, cpf : string, password : string, id_unit: number, office: string, role:Role ):Promise<User>
   
 
 }

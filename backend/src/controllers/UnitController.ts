@@ -27,9 +27,12 @@ export default {
   },
   async getUnits(request: Request, response: Response) {
     try {
+
+      //let take = request.query.limit ? parseInt(request.query.limit) : 10;
       const allUnits = await prisma.unit.findMany({
-        include: {
-          users_unit: true,
+       // take:10,
+        orderBy: {
+          name: 'asc', // Ordenar pelo campo 'nome' em ordem ascendente (alfabética)
         },
       });
 
@@ -38,10 +41,32 @@ export default {
       return response.json({ message: error });
     }
   },
+  
+  async filteredUnits(request: Request, response: Response) {
+    const { searchString} = request.query;
+
+    try{
+      const filteredUnits = await prisma.unit.findMany({
+        where: {      
+              name:{contains: searchString.toString()}
+        },
+        orderBy: {
+          name: 'asc', // Ordenar pelo campo 'nome' em ordem ascendente (alfabética)
+        },
+      }) 
+      if(filteredUnits.length === 0){
+        return response.send({message:'Unidade não encontrada!'});
+      }
+
+      return response.json({data: filteredUnits});
+    } catch (error) {
+      return response.status(500).json(error);
+    }
+  },
   // getUnitById
   async getUnitById(request: Request, response: Response) {
     try {
-      const unitId = request.params.id;
+      const unitId = parseInt(request.params.id);
       const unit = await prisma.unit.findUnique({
         where: {
           id: unitId,
@@ -58,7 +83,7 @@ export default {
   },// updateUnit
    async updateUnit(request: Request, response: Response){
     try {
-      const unitId = request.params.id;
+      const unitId = parseInt(request.params.id);
       const {name, tel, address, neighborhood, city , state } = request.body;
   
       const unit = await prisma.unit.update({
@@ -79,7 +104,7 @@ export default {
   // deleteUnit
   async deleteUnit(request: Request, response: Response){
     try {
-      const unitId = request.params.id;
+      const unitId = parseInt(request.params.id);
       const unit = await prisma.unit.delete({
         where: {
           id: unitId,

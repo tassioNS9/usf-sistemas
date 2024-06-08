@@ -1,14 +1,26 @@
 <template>
 
-    <div class=" bg-slate-300 w-full border-t-2 px-8 py-6 lg:flex justify-between items-center">
-        <p class="mb-2 lg:mb-0">© Copyright 2024</p>
-
-        <div class="flex">
-            <a href="#" class="mr-6 hover:text-gray-900">Termos de serviço</a>
-            <a href="#" class="mr-6 hover:text-gray-900">Politicas de privacidade</a>
-            <a href="#" class="hover:text-gray-900">Sobre Nós</a>
+    <footer class="bg-white rounded-lg shadow m-4 dark:bg-gray-800">
+        <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
+            <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2024 <a href="https://flowbite.com/"
+                    class="hover:underline">UFS™</a>. Todos os direitos reservados.
+            </span>
+            <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
+                <li>
+                    <a href="#" class="hover:underline me-4 md:me-6">Sobre</a>
+                </li>
+                <li>
+                    <a href="#" class="hover:underline me-4 md:me-6">Políticas de privacidade</a>
+                </li>
+                <li>
+                    <a href="#" class="hover:underline me-4 md:me-6">Lincença</a>
+                </li>
+                <li>
+                    <a href="#" class="hover:underline">Contato</a>
+                </li>
+            </ul>
         </div>
-    </div>
+    </footer>
 
 </template>
 <script>
